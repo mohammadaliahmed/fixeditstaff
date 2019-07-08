@@ -100,11 +100,19 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(context, MapsActivity.class);
-                    i.putExtra("orderId", "" + model.getOrderId());
-                    i.putExtra("latitude",  model.getLat());
-                    i.putExtra("longitude",  model.getLon());
-                    context.startActivity(i);
+                    if (model.isArrived()) {
+                        Intent i = new Intent(context, BookingSumary.class);
+                        i.putExtra("orderId", "" + model.getOrderId());
+                        context.startActivity(i);
+                    } else {
+                        Intent i = new Intent(context, MapsActivity.class);
+                        i.putExtra("orderId", "" + model.getOrderId());
+                        i.putExtra("latitude", model.getLat());
+                        i.putExtra("longitude", model.getLon());
+                        context.startActivity(i);
+                    }
+
+//
 
                 }
             });

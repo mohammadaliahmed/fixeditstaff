@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fix it Staff</string>
+    <string name="app_name">FIXEDIT Staff</string>
     <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

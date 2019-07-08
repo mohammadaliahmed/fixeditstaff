@@ -42,9 +42,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -77,6 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ImageView dialPhone;
     TextView phoneNumber, customerName;
     DatabaseReference mDatabase;
+    private Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,9 +135,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         arrived.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              Intent i=new Intent(MapsActivity.this,BookingSumary.class);
-              i.putExtra("orderId",orderId);
-              startActivity(i);
+                mDatabase.child("Orders").child(orderId).child("arrived").setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent i = new Intent(MapsActivity.this, BookingSumary.class);
+                        i.putExtra("orderId", orderId);
+                        startActivity(i);
+                    }
+                });
+
             }
         });
 
@@ -150,7 +159,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0.0f, new android.location.LocationListener() {
+        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1L, 0.0f, new android.location.LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 if (location != null) {
@@ -241,50 +250,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                     mGoogleApiClient);
             if (mLastLocation != null) {
-//                Intent intent = new Intent();
-//                intent.putExtra("Longitude", mLastLocation.getLongitude());
-//                intent.putExtra("Latitude", mLastLocation.getLatitude());
-//                setResult(RESULT_OK,intent);
-//
-//                finish();
-
                 lat = mLastLocation.getLatitude();
                 lng = mLastLocation.getLongitude();
                 origLat = lat;
                 origLon = lng;
 
-
-//                LatLng sydney = new LatLng(orderLat, orderLon);
-//                mMap.addMarker(new MarkerOptions().position(sydney).title(orderId));
-//
-//                LatLng newPosition = new LatLng(lat, lng);
-//                mMap.addMarker(new MarkerOptions().position(newPosition).title(orderId));
-
-
-//                GoogleDirection.withServerKey("AIzaSyATb8hLtW0K9ViogKBgTTr9MeCHsCZOZlg")
-//                        .from(new LatLng(lat, lng))
-//                        .to(new LatLng(orderLat, orderLon))
-//                        .avoid(AvoidType.FERRIES)
-//                        .avoid(AvoidType.HIGHWAYS)
-//                        .execute(new DirectionCallback() {
-//
-//                            @Override
-//                            public void onDirectionSuccess(Direction direction, String rawBody) {
-//                                if (direction.isOK()) {
-//                                    // Do something
-//                                    CommonUtils.showToast("Wow");
-//                                } else {
-//                                    // Do something
-//                                    CommonUtils.showToast("Error");
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onDirectionFailure(Throwable t) {
-//                                // Do something
-//                                CommonUtils.showToast(t.getMessage());
-//                            }
-//                        });
                 origin = new LatLng(lat, lng);
                 destination = new LatLng(orderLat, orderLon);
                 GoogleDirection.withServerKey("AIzaSyD0ruQXUCNNB5y-bxLyyzy6Qcv9zLc-D_8")
@@ -298,8 +268,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             public void onDirectionSuccess(Direction direction, String rawBody) {
                                 Route route = direction.getRouteList().get(0);
 
-                                mMap.addMarker(new MarkerOptions().position(origin));
+                                marker = mMap.addMarker(new MarkerOptions().position(origin));
                                 mMap.addMarker(new MarkerOptions().position(destination));
+
 
                                 ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
                                 mMap.addPolyline(DirectionConverter.createPolyline(MapsActivity.this, directionPositionList, 5, Color.BLUE));

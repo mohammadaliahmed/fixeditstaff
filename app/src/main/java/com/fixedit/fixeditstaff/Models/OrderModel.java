@@ -20,6 +20,7 @@ public class OrderModel {
     boolean assigned;
     String assignedTo;
     String assignedToName;
+    boolean arrived;
 
     public OrderModel(long orderId, long time, User user, ArrayList<ServiceCountModel> countModelArrayList,
                       long totalPrice, long totalHours, String instructions, String date, String chosenTime,
@@ -45,6 +46,14 @@ public class OrderModel {
     }
 
     public OrderModel() {
+    }
+
+    public boolean isArrived() {
+        return arrived;
+    }
+
+    public void setArrived(boolean arrived) {
+        this.arrived = arrived;
     }
 
     public boolean isAssigned() {

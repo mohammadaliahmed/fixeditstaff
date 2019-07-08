@@ -62,6 +62,16 @@ public class CommonUtils {
         }
     }
 
+    public static String getFullDate(long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+
+
+        return DateFormat.format("dd MMM yyy, h:mm aa", smsTime).toString();
+
+    }
+
     public static String getFormattedDateOnly(long smsTimeInMilis) {
         Calendar smsTime = Calendar.getInstance();
         smsTime.setTimeInMillis(smsTimeInMilis);
@@ -85,8 +95,6 @@ public class CommonUtils {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
-
-
 
 
 }

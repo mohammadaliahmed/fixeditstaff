@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class BookingSumary extends AppCompatActivity {
     String orderId;
     DatabaseReference mDatabase;
     private OrderModel orderModel;
+    Button start;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -56,7 +58,17 @@ public class BookingSumary extends AppCompatActivity {
         time = findViewById(R.id.time);
         buildingType = findViewById(R.id.buildingType);
         serviceType = findViewById(R.id.serviceType);
+        start = findViewById(R.id.start);
         getOrderFromDB();
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(BookingSumary.this,Assignemnt.class);
+                i.putExtra("orderId",orderId);
+                startActivity(i);
+            }
+        });
 
 
 //        next.setOnClickListener(new View.OnClickListener() {

@@ -82,7 +82,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation 'com.bogdwellers:pinchtozoom:0.1'
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:1.0.1'
-    implementation 'com.google.firebase:firebase-storage:11.0.4'
+    implementation 'com.google.firebase:firebase-storage:17.0.0'
     implementation 'com.zhihu.android:matisse:0.4.3'
 
 //    implementation 'com.github.bumptech.glide:glide:3.7.0'
@@ -97,6 +97,9 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:1.1.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.akexorcist:googledirectionlibrary:1.1.1'
+    implementation 'com.huangyz0918:androidwm:0.2.3'
+
+    implementation 'com.yalantis:ucrop:2.2.0'
 
 
 }
