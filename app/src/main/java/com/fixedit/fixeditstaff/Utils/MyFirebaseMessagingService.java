@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import com.fixedit.fixeditstaff.Activities.AssignedOrders;
+import com.fixedit.fixeditstaff.Activities.BookingSumary;
 import com.fixedit.fixeditstaff.Activities.MainActivity;
 import com.fixedit.fixeditstaff.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -75,6 +76,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (type.equalsIgnoreCase("order")) {
             resultIntent = new Intent(this, AssignedOrders.class);
+
+        }else  if (type.equalsIgnoreCase("Modify")) {
+            resultIntent = new Intent(this, BookingSumary.class);
+            resultIntent.putExtra("orderId",Id);
 
         } else {
 

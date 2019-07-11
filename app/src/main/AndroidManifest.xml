@@ -24,10 +24,12 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:appComponentFactory">
         <activity android:name=".Activities.AssignedOrders" />
+        <activity android:name=".Activities.AssignmentHistory" />
         <activity android:name=".Activities.BookingSumary" />
         <activity android:name=".Activities.Assignemnt" />
         <activity android:name=".Activities.ImageCrop.TempActivity"/>
         <activity android:name=".Activities.PicturesSlider"/>
+        <activity android:name=".Activities.FinishJob"/>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -49,6 +51,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.GPSTrackerActivity" />
+        <activity android:name=".Activities.ViewOrder" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://recipe-app.com/recipe" -->
+                <data
+                    android:host="fixedit.services"
+                    android:pathPrefix="/staff"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
 
         <service android:name=".Utils.MyFirebaseInstanceIDService">
             <intent-filter>

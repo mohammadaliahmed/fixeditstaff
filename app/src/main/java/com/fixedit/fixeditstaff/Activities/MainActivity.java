@@ -60,6 +60,13 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        assignmentHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AssignmentHistory.class));
+
+            }
+        });
 
 //        newBooking.setOnClickListener(new View.OnClickListener() {
 //            @Override

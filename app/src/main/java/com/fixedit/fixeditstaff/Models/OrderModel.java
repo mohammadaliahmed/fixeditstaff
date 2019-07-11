@@ -21,6 +21,9 @@ public class OrderModel {
     String assignedTo;
     String assignedToName;
     boolean arrived;
+    long materialBill;
+    long jobEndTime;
+    boolean jobDone;
 
     public OrderModel(long orderId, long time, User user, ArrayList<ServiceCountModel> countModelArrayList,
                       long totalPrice, long totalHours, String instructions, String date, String chosenTime,
@@ -54,6 +57,30 @@ public class OrderModel {
 
     public void setArrived(boolean arrived) {
         this.arrived = arrived;
+    }
+
+    public long getMaterialBill() {
+        return materialBill;
+    }
+
+    public void setMaterialBill(long materialBill) {
+        this.materialBill = materialBill;
+    }
+
+    public long getJobEndTime() {
+        return jobEndTime;
+    }
+
+    public void setJobEndTime(long jobEndTime) {
+        this.jobEndTime = jobEndTime;
+    }
+
+    public boolean isJobDone() {
+        return jobDone;
+    }
+
+    public void setJobDone(boolean jobDone) {
+        this.jobDone = jobDone;
     }
 
     public boolean isAssigned() {

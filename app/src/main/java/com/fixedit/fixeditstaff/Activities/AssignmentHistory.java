@@ -1,19 +1,13 @@
 package com.fixedit.fixeditstaff.Activities;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.fixedit.fixeditstaff.Models.OrderModel;
-import com.fixedit.fixeditstaff.Models.ServicemanModel;
 import com.fixedit.fixeditstaff.R;
-import com.fixedit.fixeditstaff.Utils.CommonUtils;
-import com.fixedit.fixeditstaff.Utils.PrefManager;
 import com.fixedit.fixeditstaff.Utils.SharedPrefs;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -25,14 +19,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class AssignedOrders extends AppCompatActivity {
+public class AssignmentHistory extends AppCompatActivity {
     ImageView back;
     ArrayList<OrderModel> arrayList = new ArrayList<>();
     OrdersAdapter adapter;
@@ -110,9 +103,8 @@ public class AssignedOrders extends AppCompatActivity {
 
                     OrderModel model = dataSnapshot.getValue(OrderModel.class);
                     if (model != null) {
-                        if (!model.isJobDone()) {
+                        if (model.isJobDone()) {
                             arrayList.add(model);
-
                         }
 
 

@@ -9,8 +9,11 @@
     <color name="colorGreen">#97AB00</color>
     <color name="colorGrey">#A3ABAB</color>
     <color name="colorBlack">#000</color>
+    <color name="colorYellow">#ffe100</color>
+
     <color name="colorWhite">#fff</color>
     <color name="colorGreyAnother">#FFBFBFBF</color>
+    <color name="colorGreyLight">#dfdfdf</color>
 
 
 </resources>

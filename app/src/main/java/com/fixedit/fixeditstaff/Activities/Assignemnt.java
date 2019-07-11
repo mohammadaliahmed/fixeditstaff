@@ -116,6 +116,13 @@ public class Assignemnt extends AppCompatActivity implements PicturesUploaded {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         uploadShopBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +140,7 @@ public class Assignemnt extends AppCompatActivity implements PicturesUploaded {
         uploadClientBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (shopBillImg != null) {
+                if (clientBillImg != null) {
                     wholeLayout.setVisibility(View.VISIBLE);
                     uploadClientBill.setVisibility(View.GONE);
                     putPictures(clientBillImg, "client", true);

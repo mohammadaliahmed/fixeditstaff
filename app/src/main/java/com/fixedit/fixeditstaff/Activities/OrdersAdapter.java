@@ -52,23 +52,18 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         holder.checkbox.setChecked(false);
         if (model != null) {
 
-            if (model.getOrderStatus().equalsIgnoreCase("Pending")) {
-                holder.checkbox.setVisibility(View.VISIBLE);
-            } else {
-                holder.checkbox.setVisibility(View.GONE);
-            }
-//            if (model.getOrderStatus().equalsIgnoreCase("Pending")) {
-//                holder.cancel.setVisibility(View.VISIBLE);
-//            } else {
-//                holder.cancel.setVisibility(View.GONE);
-//            }
+            if (!model.isArrived() && !model.isJobDone()) {
+                holder.jobColor.setBackgroundColor(context.getResources().getColor(R.color.colorRed));
+            } else if (model.isArrived() && !model.isJobDone()) {
+                holder.jobColor.setBackgroundColor(context.getResources().getColor(R.color.colorBlue));
 
-//            holder.cancel.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    changeStatus.markOrderAsCancelled(model);
-//                }
-//            });
+            } else if (model.isJobDone() && model.isArrived()) {
+                holder.jobColor.setBackgroundColor(context.getResources().getColor(R.color.colorGreen));
+
+            } else {
+                holder.jobColor.setVisibility(View.GONE);
+            }
+
             holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -100,16 +95,18 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             {
                 @Override
                 public void onClick(View view) {
-                    if (model.isArrived()) {
-                        Intent i = new Intent(context, BookingSumary.class);
-                        i.putExtra("orderId", "" + model.getOrderId());
-                        context.startActivity(i);
-                    } else {
-                        Intent i = new Intent(context, MapsActivity.class);
-                        i.putExtra("orderId", "" + model.getOrderId());
-                        i.putExtra("latitude", model.getLat());
-                        i.putExtra("longitude", model.getLon());
-                        context.startActivity(i);
+                    if(!model.isJobDone()) {
+                        if (model.isArrived()) {
+                            Intent i = new Intent(context, BookingSumary.class);
+                            i.putExtra("orderId", "" + model.getOrderId());
+                            context.startActivity(i);
+                        } else {
+                            Intent i = new Intent(context, MapsActivity.class);
+                            i.putExtra("orderId", "" + model.getOrderId());
+                            i.putExtra("latitude", model.getLat());
+                            i.putExtra("longitude", model.getLon());
+                            context.startActivity(i);
+                        }
                     }
 
 //
@@ -149,10 +146,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         TextView userDetails, orderDetails;
         ImageView dial;
         CheckBox checkbox;
+        View jobColor;
 
         public ViewHolder(View itemView) {
             super(itemView);
             userDetails = itemView.findViewById(R.id.userDetails);
+            jobColor = itemView.findViewById(R.id.jobColor);
             orderDetails = itemView.findViewById(R.id.orderDetails);
             dial = itemView.findViewById(R.id.dial);
 

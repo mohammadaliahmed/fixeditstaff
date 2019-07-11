@@ -56,6 +56,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -80,6 +82,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     TextView phoneNumber, customerName;
     DatabaseReference mDatabase;
     private Marker marker;
+    private Timer t;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +169,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (location != null) {
                     location.getLatitude();
                     location.getLongitude();
-                    CommonUtils.showToast("" + location.getLatitude() + location.getLongitude());
+//                    CommonUtils.showToast("" + location.getLatitude() + location.getLongitude());
+                    lat = location.getLatitude();
+                    lng = location.getLongitude();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (origin != null && lat != 0 && lng != 0 && marker != null) {
+//                                                  lat=lat-0.001;
+//                                                  lng=lng+0.001;
+                                origin = new LatLng(lat, lng);
+
+                                marker.setPosition(origin);
+                            }
+                        }
+                    });
                 } else {
 //                    CommonUtils.showToast("Null");
                 }
@@ -195,7 +213,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .addApi(LocationServices.API)
                     .build();
         }
+//        t = new Timer();
+////Set the schedule function and rate
+//        t.scheduleAtFixedRate(new TimerTask() {
+//
+//                                  @Override
+//                                  public void run() {
+//                                      //Called each time when 1000 milliseconds (1 second) (the period parameter)
+////                                      CommonUtils.showToast("After 10");
+//                                      runOnUiThread(new Runnable() {
+//                                          @Override
+//                                          public void run() {
+//                                              if (origin != null && lat != 0 && lng != 0 && marker != null) {
+////                                                  lat=lat-0.001;
+////                                                  lng=lng+0.001;
+//                                                  origin = new LatLng(lat, lng);
+//
+//                                                  marker.setPosition(origin);
+//                                              }
+//                                          }
+//                                      });
+//
+//
+//                                  }
+//
+//                              },
+////Set how long before to start calling the TimerTask (in milliseconds)
+//                0,
+////Set the amount of time between each execution (in milliseconds)
+//                1000);
+
     }
+
 
     private void getOrderFromDB() {
         mDatabase.child("Orders").child(orderId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -238,6 +287,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onStop() {
 //        progressBar.setVisibility(View.GONE);
         mGoogleApiClient.disconnect();
+        if (t != null) {
+            t.cancel();
+        }
         super.onStop();
 
     }
@@ -269,6 +321,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 Route route = direction.getRouteList().get(0);
 
                                 marker = mMap.addMarker(new MarkerOptions().position(origin));
+
                                 mMap.addMarker(new MarkerOptions().position(destination));
 
 
