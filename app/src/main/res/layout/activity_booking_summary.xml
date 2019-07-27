@@ -244,6 +244,14 @@
                 android:layout_marginTop="100dp"
                 android:layout_marginBottom="20dp"
                 android:orientation="vertical">
+                <TextView
+                    android:text="00:13:10"
+                    android:id="@+id/timer"
+                    android:layout_margin="5dp"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <Button
                     android:layout_width="100dp"
@@ -296,10 +304,10 @@
 
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-
+                        android:id="@+id/pictures"
                         android:background="@drawable/button_green_bg"
                         android:inputType="text"
-                        android:text="Material bill"
+                        android:text="Pictures"
                         android:textColor="#fff"
                         android:textSize="12sp" />
                 </LinearLayout>

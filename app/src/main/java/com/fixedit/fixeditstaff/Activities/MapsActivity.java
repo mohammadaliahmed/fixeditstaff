@@ -32,6 +32,9 @@ import com.akexorcist.googledirection.util.DirectionConverter;
 import com.fixedit.fixeditstaff.Models.OrderModel;
 import com.fixedit.fixeditstaff.R;
 import com.fixedit.fixeditstaff.Utils.CommonUtils;
+import com.fixedit.fixeditstaff.Utils.NotificationAsync;
+import com.fixedit.fixeditstaff.Utils.NotificationObserver;
+import com.fixedit.fixeditstaff.Utils.SharedPrefs;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -61,7 +64,7 @@ import java.util.TimerTask;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener ,NotificationObserver {
 
     private GoogleMap mMap;
     private double lng, lat;
@@ -101,7 +104,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         orderLon = getIntent().getDoubleExtra("longitude", 0);
         orderIdText.setText("Order Id: " + orderId);
         getOrderFromDB();
-
         dialPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,9 +111,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivity(i);
             }
         });
-
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -129,10 +128,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 LatLng newPosition = new LatLng(origLat, origLon);
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 16));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 16));
 
-//                address.setText(lat == 0 ? "" : CommonUtils.getFullAddress(MapsActivity.this, origLat, origLon));
             }
         });
 
@@ -145,6 +142,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Intent i = new Intent(MapsActivity.this, BookingSumary.class);
                         i.putExtra("orderId", orderId);
                         startActivity(i);
+                        NotificationAsync notificationAsync = new NotificationAsync(MapsActivity.this);
+                        String notification_title = "Your Serviceman arrived";
+                        String notification_message = "";
+                        notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), notification_title, notification_message, "Arrived", "" + orderId);
+                        finish();
                     }
                 });
 
@@ -169,15 +171,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (location != null) {
                     location.getLatitude();
                     location.getLongitude();
-//                    CommonUtils.showToast("" + location.getLatitude() + location.getLongitude());
                     lat = location.getLatitude();
                     lng = location.getLongitude();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             if (origin != null && lat != 0 && lng != 0 && marker != null) {
-//                                                  lat=lat-0.001;
-//                                                  lng=lng+0.001;
+
                                 origin = new LatLng(lat, lng);
 
                                 marker.setPosition(origin);
@@ -185,7 +185,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     });
                 } else {
-//                    CommonUtils.showToast("Null");
                 }
             }
 
@@ -213,35 +212,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .addApi(LocationServices.API)
                     .build();
         }
-//        t = new Timer();
-////Set the schedule function and rate
-//        t.scheduleAtFixedRate(new TimerTask() {
-//
-//                                  @Override
-//                                  public void run() {
-//                                      //Called each time when 1000 milliseconds (1 second) (the period parameter)
-////                                      CommonUtils.showToast("After 10");
-//                                      runOnUiThread(new Runnable() {
-//                                          @Override
-//                                          public void run() {
-//                                              if (origin != null && lat != 0 && lng != 0 && marker != null) {
-////                                                  lat=lat-0.001;
-////                                                  lng=lng+0.001;
-//                                                  origin = new LatLng(lat, lng);
-//
-//                                                  marker.setPosition(origin);
-//                                              }
-//                                          }
-//                                      });
-//
-//
-//                                  }
-//
-//                              },
-////Set how long before to start calling the TimerTask (in milliseconds)
-//                0,
-////Set the amount of time between each execution (in milliseconds)
-//                1000);
+
 
     }
 
@@ -274,7 +245,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setFastestInterval(1000);
     }
 
-
     @Override
     protected void onStart() {
         if (mGoogleApiClient != null) {
@@ -285,7 +255,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onStop() {
-//        progressBar.setVisibility(View.GONE);
         mGoogleApiClient.disconnect();
         if (t != null) {
             t.cancel();
@@ -310,8 +279,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 origin = new LatLng(lat, lng);
                 destination = new LatLng(orderLat, orderLon);
                 GoogleDirection.withServerKey("AIzaSyD0ruQXUCNNB5y-bxLyyzy6Qcv9zLc-D_8")
-
-
                         .from(origin)
                         .to(destination)
                         .transportMode(TransportMode.DRIVING)
@@ -327,10 +294,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                                 ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
                                 mMap.addPolyline(DirectionConverter.createPolyline(MapsActivity.this, directionPositionList, 5, Color.BLUE));
-//                                setCameraWithCoordinationBounds(route);
 
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 14));
-//                                btnRequestDirection.setVisibility(View.GONE);
                             }
 
                             @Override
@@ -339,14 +304,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             }
                         });
 
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 14));
 
 
             } else {
                 Intent intent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://maps.google.com/maps?"));
                 startActivity(intent);
-//                CommonUtils.showToast("Nullllll");
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                         mGoogleApiClient);
             }
@@ -371,29 +334,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 2 ) {
-//            getPlaceFromPicker(data);
-//            LatLng newPosition = new LatLng(lat, lng);
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 16));
-//
-//            address.setText(lat == 0 ? "" : CommonUtils.getFullAddress(MapsActivity.this, lat, lng));
-//        }
-//        if (requestCode == 1 && resultCode == RESULT_OK) {
-//            if (data != null) {
-//                Bundle extras = data.getExtras();
-//                lng = extras.getDouble("Longitude");
-//                lat = extras.getDouble("Latitude");
-//                origLat = lat;
-//                origLon = lng;
-//                LatLng newPosition = new LatLng(lat, lng);
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 16));
-//
-////                address.setText(lat == 0 ? "" : CommonUtils.getFullAddress(MapsActivity.this, lat, lng));
-//
-//
-//            }
-//
-//        }
+
     }
 
     /**
@@ -461,6 +402,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onSuccess(String chatId) {
+
+    }
+
+    @Override
+    public void onFailure() {
 
     }
 }

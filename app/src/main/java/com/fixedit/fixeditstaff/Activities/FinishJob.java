@@ -19,6 +19,7 @@ import com.fixedit.fixeditstaff.R;
 import com.fixedit.fixeditstaff.Utils.CommonUtils;
 import com.fixedit.fixeditstaff.Utils.NotificationAsync;
 import com.fixedit.fixeditstaff.Utils.NotificationObserver;
+import com.fixedit.fixeditstaff.Utils.SharedPrefs;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,6 +44,7 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
     EditText materialBill;
     Button paymentReceived;
     private long totl;
+    TextView percentText;
 
 
     @Override
@@ -118,16 +120,23 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("totalPrice", totl);
                 map.put("materialBill", Long.parseLong(materialBill.getText().length() == 0 ? "0" : materialBill.getText().toString()));
-                map.put("jobEndTime", System.currentTimeMillis());
                 map.put("jobDone", true);
+                map.put("paymentReceived", true);
                 mDatabase.child("Orders").child(orderId).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         NotificationAsync notificationAsync = new NotificationAsync(FinishJob.this);
-                        String notification_title = orderModel.getServiceName() + " Completed";
-                        String notification_message = "Click to view";
-                        notificationAsync.execute("ali", orderModel.getUser().getFcmKey(), notification_title, notification_message, "jobDone", "" + orderId);
-                        CommonUtils.showToast("Job Finished");
+                        String notification_title = "Thanks for the payment";
+                        String notification_message = "Please rate the service";
+                        notificationAsync.execute("ali", orderModel.getUser().getFcmKey(), notification_title, notification_message, "paymentReceived", "" + orderId);
+
+                        NotificationAsync notificationAsync1 = new NotificationAsync(FinishJob.this);
+
+                        notificationAsync1.execute("ali", SharedPrefs.getAdminFcmKey(), "Rs " + totl + " has been received", "", "paymentReceived", "" + orderId);
+                        CommonUtils.showToast("Payment Received");
+                        Intent i = new Intent(FinishJob.this, MainActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
                         finish();
 
                     }
@@ -145,8 +154,9 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
 
     private void calculateTotal(String s) {
         float amount = Integer.parseInt(s);
-        float percent = (amount / 10);
-        totl = (int) percent + orderModel.getTotalPrice();
+        float percent = amount + (amount / 10);
+        long finalCost = orderModel.getServiceCharges();
+        totl = (int) percent + finalCost;
         totalBill.setText("Total Bill Amount: Rs " + totl);
     }
 
@@ -157,7 +167,8 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
                 if (dataSnapshot.getValue() != null) {
                     orderModel = dataSnapshot.getValue(OrderModel.class);
                     if (orderModel != null) {
-                        serviceCharges.setText("Rs " + orderModel.getTotalPrice());
+                        long finalCost = orderModel.getServiceCharges();
+                        serviceCharges.setText("Rs " + finalCost);
                         totalTime.setText("" + orderModel.getTotalHours() + " hrs");
                         totalBill.setText("" + orderModel.getTotalPrice());
                         calculateTotal("" + 0);

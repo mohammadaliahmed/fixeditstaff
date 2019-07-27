@@ -30,12 +30,17 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     Context context;
     ArrayList<OrderModel> itemList;
     ChangeStatus changeStatus;
+    boolean showDial;
 
 
     public OrdersAdapter(Context context, ArrayList<OrderModel> itemList, ChangeStatus changeStatus) {
         this.context = context;
         this.itemList = itemList;
         this.changeStatus = changeStatus;
+    }
+    public void showDial(boolean showDial){
+        this.showDial=showDial;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -50,6 +55,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final OrderModel model = itemList.get(position);
         holder.checkbox.setChecked(false);
+        if(showDial){
+            holder.dial.setVisibility(View.VISIBLE);
+        }else{
+            holder.dial.setVisibility(View.GONE);
+
+        }
         if (model != null) {
 
             if (!model.isArrived() && !model.isJobDone()) {
@@ -74,12 +85,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             });
 
             holder.orderDetails.setText("Order Id: " + model.getOrderId()
-                    + "\n\nOrder Time: " + CommonUtils.getFormattedDate(model.getTime())
-                    + "\n\nOrder Status: " + model.getOrderStatus()
-                    + "\n\nOrder Items: " + model.getCountModelArrayList().
+                    + "\n\nService Time: " + CommonUtils.getFormattedDate(model.getTime())
+                    + "\n\nService Status: " + model.getOrderStatus()
+                    + "\n\nService Items: " + model.getCountModelArrayList().
 
                     size()
-                    + "\n\nOrder Amount: Rs." + model.getTotalPrice()
+                    + "\n\nTotal Amount: Rs." + model.getTotalPrice()
             );
             holder.userDetails.setText("Name: " + model.getUser().
 

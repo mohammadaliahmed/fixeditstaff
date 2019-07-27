@@ -24,6 +24,16 @@ public class SharedPrefs {
     }
 
 
+    public static void setAdminFcmKey(String value) {
+
+        preferenceSetter("setAdminFcmKey", value);
+    }
+
+    public static String getAdminFcmKey() {
+        return preferenceGetter("setAdminFcmKey");
+    }
+
+
     public static void setIsLoggedIn(String value) {
 
         preferenceSetter("isLoggedIn", value);

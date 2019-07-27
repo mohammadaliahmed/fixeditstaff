@@ -26,6 +26,7 @@
         <activity android:name=".Activities.AssignedOrders" />
         <activity android:name=".Activities.AssignmentHistory" />
         <activity android:name=".Activities.BookingSumary" />
+        <activity android:name=".Activities.MyRatings" />
         <activity android:name=".Activities.Assignemnt" />
         <activity android:name=".Activities.ImageCrop.TempActivity"/>
         <activity android:name=".Activities.PicturesSlider"/>

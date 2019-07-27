@@ -113,8 +113,8 @@ public class AssignmentHistory extends AppCompatActivity {
                     Collections.sort(arrayList, new Comparator<OrderModel>() {
                         @Override
                         public int compare(OrderModel listData, OrderModel t1) {
-                            Long ob1 = listData.getTime();
-                            Long ob2 = t1.getTime();
+                            Long ob1 = listData.getOrderId();
+                            Long ob2 = t1.getOrderId();
 
                             return ob2.compareTo(ob1);
 

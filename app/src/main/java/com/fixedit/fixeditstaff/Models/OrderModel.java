@@ -24,6 +24,14 @@ public class OrderModel {
     long materialBill;
     long jobEndTime;
     boolean jobDone;
+    boolean jobFinish;
+    boolean jobStarted;
+    long jobStartTime;
+    boolean peakHour;
+    long serviceCharges;
+    boolean couponApplied;
+    String couponCode;
+    int discount;
 
     public OrderModel(long orderId, long time, User user, ArrayList<ServiceCountModel> countModelArrayList,
                       long totalPrice, long totalHours, String instructions, String date, String chosenTime,
@@ -49,6 +57,70 @@ public class OrderModel {
     }
 
     public OrderModel() {
+    }
+
+    public boolean isPeakHour() {
+        return peakHour;
+    }
+
+    public boolean isCouponApplied() {
+        return couponApplied;
+    }
+
+    public void setCouponApplied(boolean couponApplied) {
+        this.couponApplied = couponApplied;
+    }
+
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public void setPeakHour(boolean peakHour) {
+        this.peakHour = peakHour;
+    }
+
+    public long getServiceCharges() {
+        return serviceCharges;
+    }
+
+    public void setServiceCharges(long serviceCharges) {
+        this.serviceCharges = serviceCharges;
+    }
+
+    public boolean isJobStarted() {
+        return jobStarted;
+    }
+
+    public long getJobStartTime() {
+        return jobStartTime;
+    }
+
+    public boolean isJobFinish() {
+        return jobFinish;
+    }
+
+    public void setJobFinish(boolean jobFinish) {
+        this.jobFinish = jobFinish;
+    }
+
+    public void setJobStartTime(long jobStartTime) {
+        this.jobStartTime = jobStartTime;
+    }
+
+    public void setJobStarted(boolean jobStarted) {
+        this.jobStarted = jobStarted;
     }
 
     public boolean isArrived() {

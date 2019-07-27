@@ -75,6 +75,7 @@ public class AssignedOrders extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapter);
+        adapter.showDial(true);
 
         getMyOrdersFromDB();
 
