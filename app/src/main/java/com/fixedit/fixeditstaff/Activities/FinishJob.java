@@ -1,6 +1,5 @@
 package com.fixedit.fixeditstaff.Activities;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fixedit.fixeditstaff.Adapters.ServicesBookedAdapter;
 import com.fixedit.fixeditstaff.Models.OrderModel;
 import com.fixedit.fixeditstaff.R;
 import com.fixedit.fixeditstaff.Utils.CommonUtils;
@@ -31,8 +28,6 @@ import java.util.HashMap;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class FinishJob extends AppCompatActivity implements NotificationObserver {
 
@@ -45,7 +40,9 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
     Button paymentReceived;
     private long totl;
     TextView percentText;
-
+    Button notifyClient;
+    TextView couponApplied;
+    long prvTotl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +54,10 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
         totalBill = findViewById(R.id.totalBill);
         serviceCharges = findViewById(R.id.serviceCharges);
         paymentReceived = findViewById(R.id.paymentReceived);
+        notifyClient = findViewById(R.id.notifyClient);
         materialBill = findViewById(R.id.materialBill);
+        couponApplied = findViewById(R.id.couponApplied);
+        percentText = findViewById(R.id.tax);
 
         back = findViewById(R.id.back);
 
@@ -78,6 +78,15 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
 //                CommonUtils.showToast("Received");
                 showAlert();
 
+
+            }
+        });
+
+
+        notifyClient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNotiAlert();
 
             }
         });
@@ -108,6 +117,31 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
 
     }
 
+    private void showNotiAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(FinishJob.this);
+        builder.setTitle("Alert");
+        builder.setMessage("Notify customer about invoice?");
+
+        // add the buttons
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                NotificationAsync notificationAsync = new NotificationAsync(FinishJob.this);
+                String notification_title = "Your total bill is Rs " + totl;
+                prvTotl = totl;
+                String notification_message = "Please pay to the servicemen. Thank you!";
+                notificationAsync.execute("ali", orderModel.getUser().getFcmKey(), notification_title, notification_message, "totalBill", "" + orderId);
+
+
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void showAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(FinishJob.this);
         builder.setTitle("Alert");
@@ -119,6 +153,7 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
             public void onClick(DialogInterface dialogInterface, int i) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("totalPrice", totl);
+                prvTotl = totl;
                 map.put("materialBill", Long.parseLong(materialBill.getText().length() == 0 ? "0" : materialBill.getText().toString()));
                 map.put("jobDone", true);
                 map.put("paymentReceived", true);
@@ -132,7 +167,7 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
 
                         NotificationAsync notificationAsync1 = new NotificationAsync(FinishJob.this);
 
-                        notificationAsync1.execute("ali", SharedPrefs.getAdminFcmKey(), "Rs " + totl + " has been received", "", "paymentReceived", "" + orderId);
+                        notificationAsync1.execute("ali", SharedPrefs.getAdminFcmKey(), "Rs " + prvTotl + " has been received", "", "paymentReceived", "" + orderId);
                         CommonUtils.showToast("Payment Received");
                         Intent i = new Intent(FinishJob.this, MainActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -157,11 +192,14 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
         float percent = amount + (amount / 10);
         long finalCost = orderModel.getServiceCharges();
         totl = (int) percent + finalCost;
+        double abc = (double) orderModel.getTax() / 100;
+        totl = totl + (int) (totl * abc);
+
         totalBill.setText("Total Bill Amount: Rs " + totl);
     }
 
     private void getOrderFromDB() {
-        mDatabase.child("Orders").child(orderId).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Orders").child(orderId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -169,9 +207,14 @@ public class FinishJob extends AppCompatActivity implements NotificationObserver
                     if (orderModel != null) {
                         long finalCost = orderModel.getServiceCharges();
                         serviceCharges.setText("Rs " + finalCost);
+                        percentText.setText(orderModel.getTax() + "%");
                         totalTime.setText("" + orderModel.getTotalHours() + " hrs");
                         totalBill.setText("" + orderModel.getTotalPrice());
                         calculateTotal("" + 0);
+                        if (orderModel.isCouponApplied()) {
+                            couponApplied.setVisibility(View.VISIBLE);
+                            couponApplied.setText("" + orderModel.getDiscount() + "%" + " discount has been applied from coupon");
+                        }
                     }
 
                 }

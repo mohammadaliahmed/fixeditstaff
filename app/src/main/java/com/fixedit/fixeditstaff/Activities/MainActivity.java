@@ -2,6 +2,7 @@ package com.fixedit.fixeditstaff.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.fixedit.fixeditstaff.Utils.SharedPrefs;
@@ -160,9 +161,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_about) {
-            // Handle the camera action
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://firebasestorage.googleapis.com/v0/b/fixitservices-b8de0.appspot.com/o/pdf%2FAbout%20Us-FIXEDIT.pdf?alt=media&token=bc2ead68-19ee-49fb-9ec4-e1fe97a1e292"));
+            startActivity(i);
         } else if (id == R.id.nav_terms) {
-
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://firebasestorage.googleapis.com/v0/b/fixitservices-b8de0.appspot.com/o/pdf%2FPrivacy%20Policy-FIXEDIT.pdf?alt=media&token=7c13ef05-e899-4056-aa07-c1975de51229"));
+            startActivity(i);
         } else if (id == R.id.nav_help) {
 
         } else if (id == R.id.nav_logout) {

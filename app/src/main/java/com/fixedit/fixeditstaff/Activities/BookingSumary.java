@@ -119,6 +119,14 @@ public class BookingSumary extends AppCompatActivity implements NotificationObse
                                     start.setText("Finish");
                                 }
                             });
+                            NotificationAsync notificationAsync = new NotificationAsync(BookingSumary.this);
+                            String notification_title = orderModel.getServiceName() + " Job Started";
+                            String notification_message = "Click to view";
+                            notificationAsync.execute("ali", orderModel.getUser().getFcmKey(), notification_title, notification_message, "jobStart", "" + orderId);
+
+                            NotificationAsync notificationAsync1 = new NotificationAsync(BookingSumary.this);
+
+                            notificationAsync1.execute("ali", SharedPrefs.getAdminFcmKey(), notification_title, notification_message, "jobStart", "" + orderId);
 
 
                         }
@@ -220,7 +228,7 @@ public class BookingSumary extends AppCompatActivity implements NotificationObse
     }
 
     private void getParentServiceFromDB(final OrderModel order) {
-        mDatabase.child("Services").child(order.getServiceName()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Services").child(order.getServiceId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -237,13 +245,16 @@ public class BookingSumary extends AppCompatActivity implements NotificationObse
                         } else {
                             finalTotalTime = h;
                         }
-                        if(finalTotalTime==0){
-                            finalTotalTime=1;
+                        if (finalTotalTime == 0) {
+                            finalTotalTime = 1;
                         }
                         if (CommonUtils.getWhichRateToCharge(orderModel.getChosenTime())) {
+                            if (order.isCommercialBuilding()) {
+                                finalTotalCost = finalTotalTime * parentServiceModel.getCommercialServicePeakPrice();
 
-                            finalTotalCost = finalTotalTime * parentServiceModel.getPeakPrice();
-
+                            } else {
+                                finalTotalCost = finalTotalTime * parentServiceModel.getPeakPrice();
+                            }
 
                             long finalCost = finalTotalCost;
                             if (orderModel.isCouponApplied()) {
@@ -254,8 +265,12 @@ public class BookingSumary extends AppCompatActivity implements NotificationObse
 
                             peakHour = true;
                         } else {
+                            if (order.isCommercialBuilding()) {
+                                finalTotalCost = finalTotalTime * parentServiceModel.getCommercialServicePrice();
 
-                            finalTotalCost = finalTotalTime * parentServiceModel.getServiceBasePrice();
+                            } else {
+                                finalTotalCost = finalTotalTime * parentServiceModel.getServiceBasePrice();
+                            }
                             long finalCost = finalTotalCost;
                             if (orderModel.isCouponApplied()) {
                                 float val = (float) (100 - orderModel.getDiscount()) / 100;

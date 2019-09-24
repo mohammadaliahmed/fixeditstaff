@@ -77,6 +77,16 @@
 
     </fragment>
 
+    <ImageView
+        android:id="@+id/onMap"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="110dp"
+        android:src="@drawable/ic_location" />
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -112,13 +122,26 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/arrived"
+        android:id="@+id/startJourney"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         android:background="@drawable/button_green_bg"
         android:inputType="text"
-        android:text="Servicemen Arrived"
+        android:text="Start Journey"
+        android:textColor="#fff"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/arrived"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/button_red_bg"
+        android:inputType="text"
+        android:text="Arrived at Destination"
         android:textColor="#fff" />
 </RelativeLayout>

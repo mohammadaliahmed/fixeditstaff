@@ -50,5 +50,9 @@ public class Splash extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_TIME_OUT);
+        /*
+        * alias:fixeditstaff
+        * password:fixeditstaff
+        * */
     }
 }

@@ -5,19 +5,26 @@ public class ServiceModel {
     boolean active,deleted;
     int serviceBasePrice,peakPrice;
     String imageUrl;
+    int commercialServicePrice,commercialServicePeakPrice;
+
 
     public ServiceModel() {
     }
 
-    public ServiceModel(String id, String name, String description, boolean active, boolean deleted, int serviceBasePrice, int peakPrice, String imageUrl) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.active = active;
-        this.deleted = deleted;
-        this.serviceBasePrice = serviceBasePrice;
-        this.peakPrice = peakPrice;
-        this.imageUrl = imageUrl;
+    public int getCommercialServicePrice() {
+        return commercialServicePrice;
+    }
+
+    public void setCommercialServicePrice(int commercialServicePrice) {
+        this.commercialServicePrice = commercialServicePrice;
+    }
+
+    public int getCommercialServicePeakPrice() {
+        return commercialServicePeakPrice;
+    }
+
+    public void setCommercialServicePeakPrice(int commercialServicePeakPrice) {
+        this.commercialServicePeakPrice = commercialServicePeakPrice;
     }
 
     public int getPeakPrice() {

@@ -16,7 +16,7 @@ public class OrderModel {
     long billNumber;
     String buildingType;
     long totalHours;
-    String serviceName;
+    String serviceName,serviceId;
     boolean assigned;
     String assignedTo;
     String assignedToName;
@@ -32,31 +32,53 @@ public class OrderModel {
     boolean couponApplied;
     String couponCode;
     int discount;
+    boolean commercialBuilding;
+    int tax;
+    boolean journeyStarted;
+    double distanceTravelled;
 
-    public OrderModel(long orderId, long time, User user, ArrayList<ServiceCountModel> countModelArrayList,
-                      long totalPrice, long totalHours, String instructions, String date, String chosenTime,
-                      String orderStatus, String orderAddress, String googleAddress,
-                      double lat, double lon,
-                      String buildingType, String serviceName) {
-        this.orderId = orderId;
-        this.time = time;
-        this.user = user;
-        this.countModelArrayList = countModelArrayList;
-        this.totalPrice = totalPrice;
-        this.instructions = instructions;
-        this.date = date;
-        this.chosenTime = chosenTime;
-        this.orderStatus = orderStatus;
-        this.orderAddress = orderAddress;
-        this.googleAddress = googleAddress;
-        this.lat = lat;
-        this.lon = lon;
-        this.buildingType = buildingType;
-        this.totalHours = totalHours;
-        this.serviceName = serviceName;
+
+    public boolean isJourneyStarted() {
+        return journeyStarted;
+    }
+
+    public void setJourneyStarted(boolean journeyStarted) {
+        this.journeyStarted = journeyStarted;
+    }
+
+    public double getDistanceTravelled() {
+        return distanceTravelled;
+    }
+
+    public void setDistanceTravelled(double distanceTravelled) {
+        this.distanceTravelled = distanceTravelled;
+    }
+
+    public int getTax() {
+        return tax;
+    }
+
+    public void setTax(int tax) {
+        this.tax = tax;
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 
     public OrderModel() {
+    }
+
+    public boolean isCommercialBuilding() {
+        return commercialBuilding;
+    }
+
+    public void setCommercialBuilding(boolean commercialBuilding) {
+        this.commercialBuilding = commercialBuilding;
     }
 
     public boolean isPeakHour() {

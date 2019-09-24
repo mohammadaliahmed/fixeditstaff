@@ -2,11 +2,13 @@ package com.fixedit.fixeditstaff.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -59,12 +61,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener ,NotificationObserver {
+        GoogleApiClient.OnConnectionFailedListener, NotificationObserver {
 
     private GoogleMap mMap;
     private double lng, lat;
@@ -87,6 +90,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker marker;
     private Timer t;
 
+    ImageView onMap;
+    Button startJourney;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +100,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         orderIdText = findViewById(R.id.orderIdText);
         customerName = findViewById(R.id.customerName);
         phoneNumber = findViewById(R.id.phoneNumber);
+        onMap = findViewById(R.id.onMap);
+        startJourney = findViewById(R.id.startJourney);
         dialPhone = findViewById(R.id.dialPhone);
         takeMeToCurrent = findViewById(R.id.takeMeToCurrent);
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -124,6 +131,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             getPermissions();
         }
 
+
+        onMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uri = "https://maps.google.com/?daddr=" + orderModel.getLat() + "," + orderModel.getLon();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                intent.setPackage("com.google.android.apps.maps");
+                startActivity(intent);
+            }
+        });
         takeMeToCurrent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,22 +150,79 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        startJourney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+                builder.setTitle("Alert");
+                builder.setMessage("Start journey? ");
+
+                // add the buttons
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("startJourneyLat", lat);
+                        map.put("startJourneyLng", lng);
+                        map.put("journeyStarted", true);
+                        mDatabase.child("Orders").child(orderId).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                CommonUtils.showToast("Journey Started");
+                                getOrderFromDB();
+                            }
+                        });
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+
+                // create and show the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+        });
+
+
         arrived.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDatabase.child("Orders").child(orderId).child("arrived").setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+                builder.setTitle("Alert");
+                builder.setMessage("Arrived at destination? ");
+
+                // add the buttons
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Intent i = new Intent(MapsActivity.this, BookingSumary.class);
-                        i.putExtra("orderId", orderId);
-                        startActivity(i);
-                        NotificationAsync notificationAsync = new NotificationAsync(MapsActivity.this);
-                        String notification_title = "Your Serviceman arrived";
-                        String notification_message = "";
-                        notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), notification_title, notification_message, "Arrived", "" + orderId);
-                        finish();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("endJourneyLat", lat);
+                        map.put("endJourneyLng", lng);
+                        map.put("arrived", true);
+                        mDatabase.child("Orders").child(orderId).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Intent i = new Intent(MapsActivity.this, BookingSumary.class);
+                                i.putExtra("orderId", orderId);
+                                startActivity(i);
+                                NotificationAsync notificationAsync = new NotificationAsync(MapsActivity.this);
+                                String notification_title = "Your Serviceman arrived";
+                                String notification_message = "";
+                                notificationAsync.execute("ali", orderModel.getUser().getFcmKey(), notification_title, notification_message, "Arrived", "" + orderId);
+                                finish();
+                            }
+                        });
+
                     }
                 });
+                builder.setNegativeButton("Cancel", null);
+
+                // create and show the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
 
             }
         });
@@ -224,8 +298,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (dataSnapshot.getValue() != null) {
                     orderModel = dataSnapshot.getValue(OrderModel.class);
                     if (orderModel != null) {
-                        customerName.setText("Customer name: " + orderModel.getUser().getFullName());
+                        customerName.setText("Customer name: " + orderModel.getUser().getFullName() + "\nGiven Address: " + orderModel.getUser().getAddress());
                         phoneNumber.setText("Phone number: " + orderModel.getUser().getMobile());
+
+                        if (orderModel.isJourneyStarted()) {
+                            arrived.setVisibility(View.VISIBLE);
+                            startJourney.setVisibility(View.INVISIBLE);
+                        } else {
+                            startJourney.setVisibility(View.VISIBLE);
+                            arrived.setVisibility(View.INVISIBLE);
+                        }
                     }
 
                 }
@@ -278,7 +360,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 origin = new LatLng(lat, lng);
                 destination = new LatLng(orderLat, orderLon);
-                GoogleDirection.withServerKey("AIzaSyD0ruQXUCNNB5y-bxLyyzy6Qcv9zLc-D_8")
+//                GoogleDirection.withServerKey("AIzaSyD0ruQXUCNNB5y-bxLyyzy6Qcv9zLc-D_8")
+                GoogleDirection.withServerKey("AIzaSyCwxJ1em_cQzxFpCcDPTWvsUcE_HOkhyrU")
                         .from(origin)
                         .to(destination)
                         .transportMode(TransportMode.DRIVING)
@@ -303,7 +386,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             }
                         });
-
 
 
             } else {

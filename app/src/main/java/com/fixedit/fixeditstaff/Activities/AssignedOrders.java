@@ -62,16 +62,11 @@ public class AssignedOrders extends AppCompatActivity {
         adapter = new OrdersAdapter(this, arrayList, new OrdersAdapter.ChangeStatus() {
             @Override
             public void markOrderAsUnderProcess(OrderModel order, boolean b) {
-//                if (b) {
-//                    showUnderProcessDialog(order, b);
-//                } else {
-//
-//                }
+
             }
 
             @Override
             public void markOrderAsCancelled(OrderModel order) {
-//                showCancelDilog(order);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -83,11 +78,11 @@ public class AssignedOrders extends AppCompatActivity {
     }
 
     private void getMyOrdersFromDB() {
-        arrayList.clear();
-        mDatabase.child("Servicemen").child(SharedPrefs.getUser().getUsername()).child("assignedOrders").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Servicemen").child(SharedPrefs.getUser().getUsername()).child("assignedOrders").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
+                    arrayList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String orderId = snapshot.getKey();
                         getDataFromServer(orderId);
@@ -129,9 +124,6 @@ public class AssignedOrders extends AppCompatActivity {
 
                         }
                     });
-                    adapter.notifyDataSetChanged();
-                } else {
-                    arrayList.clear();
                     adapter.notifyDataSetChanged();
                 }
             }
