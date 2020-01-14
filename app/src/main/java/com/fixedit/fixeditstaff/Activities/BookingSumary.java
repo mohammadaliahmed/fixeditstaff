@@ -59,6 +59,7 @@ public class BookingSumary extends AppCompatActivity implements NotificationObse
     private long finalTotalTime;
     private long finalTotalCost;
     private boolean peakHour;
+    TextView instructions;
 
 
     @SuppressLint("WrongConstant")
@@ -77,6 +78,7 @@ public class BookingSumary extends AppCompatActivity implements NotificationObse
         back = findViewById(R.id.back);
 //        next = findViewById(R.id.next);
         date = findViewById(R.id.date);
+        instructions = findViewById(R.id.instructions);
         time = findViewById(R.id.time);
         invoiceModify = findViewById(R.id.invoiceModify);
         buildingType = findViewById(R.id.buildingType);
@@ -320,6 +322,7 @@ public class BookingSumary extends AppCompatActivity implements NotificationObse
                         serviceType.setText(orderModel.getServiceName());
                         date.setText(orderModel.getDate().replace("\n", " "));
                         time.setText(orderModel.getChosenTime());
+                        instructions.setText("Instructions: " + orderModel.getInstructions());
                         buildingType.setText(orderModel.getBuildingType());
                         adapter = new ServicesBookedAdapter(BookingSumary.this, orderModel.getCountModelArrayList());
                         recyclerview.setAdapter(adapter);
