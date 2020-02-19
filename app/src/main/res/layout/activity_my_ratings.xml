@@ -35,13 +35,14 @@
             android:layout_height="1dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="30sp"
-            android:layout_marginRight="70dp"
+            android:layout_marginRight="20dp"
             android:background="#000" />
 
 
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:visibility="invisible"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/homelogo" />

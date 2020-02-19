@@ -4,7 +4,7 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=FA:77:34:F5:66:77:F3:EA:31:98:37:D9:5C:AD:65:64:D2:5B:63:EF%3Bcom.fixedit.fixeditstaff.Activities
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=FA:77:34:F5:66:77:F3:EA:31:98:37:D9:5C:AD:65:64:D2:5B:63:EF%3Bcom.MrAppliance.MrAppliancestaff.Activities
 
     You can also add your credentials to an existing key, using these values:
 

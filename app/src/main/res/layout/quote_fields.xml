@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/ticketNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Ticket no:"
+            android:textColor="#000" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_alignParentRight="true"
+            android:text="Date: 20/10/20"
+            android:textColor="#000" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Client Details"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Equipment Details"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Client Details"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/clientName"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:inputType="text"
+
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Equipment Type"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:inputType="textCapWords"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Client Code"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:inputType="text"
+            android:id="@+id/email"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Brand"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:inputType="textCapWords"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Company"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:inputType="text"
+
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Model"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:inputType="textCapWords"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="City Area"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:inputType="text"
+            android:id="@+id/city"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Serial Num"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:inputType="textCapWords"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Address"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:inputType="text"
+            android:id="@+id/address"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Chargeable"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:inputType="textCapWords"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Phone"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:inputType="text"
+            android:id="@+id/phone"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Currency"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:inputType="textCapWords"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Invoice num"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:inputType="text"
+            android:id="@+id/orderId"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="AMC start"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:inputType="textCapWords"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Invoice Date"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:inputType="text"
+            android:id="@+id/invoiceDate"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="Amc End"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:inputType="textCapWords"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="TRN"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:inputType="text"
+            android:layout_height="25dp"
+            android:id="@+id/trn1"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:gravity="center"
+            android:text="TRN"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/black_corners"
+            android:inputType="textCapWords"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
